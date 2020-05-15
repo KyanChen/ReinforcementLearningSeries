@@ -9,7 +9,6 @@ Using:
 Tensorflow: 1.0
 gym: 0.8.0
 """
-
 import gym
 from RL_brain import PolicyGradient
 import matplotlib.pyplot as plt
@@ -44,7 +43,8 @@ for i_episode in range(1000):
     observation = env.reset()
 
     while True:
-        if RENDER: env.render()
+        if RENDER:
+            env.render()
 
         action = RL.choose_action(observation)
 

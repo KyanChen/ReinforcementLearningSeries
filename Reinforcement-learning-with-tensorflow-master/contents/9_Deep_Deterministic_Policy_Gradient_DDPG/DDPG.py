@@ -1,4 +1,4 @@
-"""
+ """
 Deep Deterministic Policy Gradient (DDPG), Reinforcement Learning.
 DDPG is Actor Critic based algorithm.
 Pendulum example.

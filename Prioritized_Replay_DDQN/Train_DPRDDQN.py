@@ -4,10 +4,13 @@ import torch.nn as nn
 import random
 import math
 import matplotlib.pyplot as plt
+from tensorboardX import SummaryWriter
 
 import Config
 import Env
 from QNet import DQNNet
+
+writer = SummaryWriter('log')
 
 
 # 用于四元组存储的类
@@ -195,6 +198,8 @@ class DQN:
         self.optimizer.zero_grad()
         loss.backward()
         self.optimizer.step()
+        writer.add_scalar('loss', loss, self.learn_iter)
+        # print(loss)
         self.loss_curve.append(loss)
 
     def draw_curve(self):
@@ -222,17 +227,12 @@ if __name__ == '__main__':
             current_a = a
             s_, r, done, info = env.step(a)
             position, velocity = s_
-            if r == 1:
-                r = 100
-            else:
-                r = math.log(position + 1.3)
-            if old_a == current_a:
-                r += -5
+            r = abs(position - (-0.5))
             dqn.store_transition(s, a, r, s_)
             if total_step > Config.MEMORY_SIZE:
                 dqn.learn()
             if done:
-                # break
+                break
                 pass
             s = s_
             total_step += 1
